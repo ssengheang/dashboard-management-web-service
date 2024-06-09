@@ -10,6 +10,9 @@ const roleRouter = require("./src/routers/v0/role.js");
 const permissionRouter = require("./src/routers/v0/permission.js");
 const userRouter = require("./src/routers/v0/user.js");
 const authRouter = require("./src/routers/v0/authentication.js");
+const clientLogRouter = require("./src/routers/v0/client_logs.js");
+const appFunctionRouter = require("./src/routers/v0/app_function.js");
+const appFunctionStatusRouter = require("./src/routers/v0/app_function_status.js");
 
 // app.use(cors());
 app.use(express.json());
@@ -20,6 +23,9 @@ app.use("/v0", authRouter);
 app.use("/v0", roleRouter);
 app.use("/v0", permissionRouter);
 app.use("/v0", userRouter);
+app.use("/v0", clientLogRouter);
+app.use("/v0", appFunctionRouter);
+app.use("/v0", appFunctionStatusRouter);
 
 
 // Check DB Connection

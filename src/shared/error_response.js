@@ -57,20 +57,22 @@ const ErrorResponse = {
         message: "Invalid token",
       },
     },
-    CONVERSATION: {
-      InvalidDest: {
-        code: "000601",
-        message: "Can no send to the same account",
-      },
+    CLIENT_LOG: {
       NotFound: {
-        code: "040602",
-        message: "Conversation not found",
+        code: "040601",
+        message: "Client log not found",
       },
     },
-    ROOM: {
+    APP_FUNCTION: {
       NotFound: {
         code: "040701",
-        message: "Room not found",
+        message: "App function not found",
+      },
+    },
+    APP_FUNCTION_STATUS: {
+      NotFound: {
+        code: "040701",
+        message: "App function status not found",
       },
     },
   };

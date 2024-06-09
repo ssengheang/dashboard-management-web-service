@@ -31,6 +31,25 @@ module.exports = {
       // AuthenticationController
       { method: 'POST', baseUrl: '/v0', path: '/login', version: api_version, rule: public, createdAt: new Date() }, // login
        
+      // ClientLogsController
+      { method: 'GET', baseUrl: '/v0', path: '/client-logs', version: api_version, rule: own_account, createdAt: new Date() }, // index
+      { method: 'GET', baseUrl: '/v0', path: '/client-logs/:id', version: api_version, rule: own_account, createdAt: new Date() }, // show
+      { method: 'POST', baseUrl: '/v0', path: '/client-logs', version: api_version, rule: public, createdAt: new Date() }, // create
+    
+      // AppFunctionsController
+      { method: 'GET', baseUrl: '/v0', path: '/app-functions', version: api_version, rule: admin_only, createdAt: new Date() }, // index
+      { method: 'GET', baseUrl: '/v0', path: '/app-functions/:id', version: api_version, rule: admin_only, createdAt: new Date() }, // show
+      { method: 'POST', baseUrl: '/v0', path: '/app-functions', version: api_version, rule: admin_only, createdAt: new Date() }, // create
+      { method: 'PUT', baseUrl: '/v0', path: '/app-functions/:id', version: api_version, rule: admin_only, createdAt: new Date() }, // update
+      { method: 'DELETE', baseUrl: '/v0', path: '/app-functions/:id', version: api_version, rule: admin_only, createdAt: new Date() }, // delete
+     
+      // AppFunctionStatusController
+      { method: 'GET', baseUrl: '/v0', path: '/app-function-statuses', version: api_version, rule: admin_only, createdAt: new Date() }, // index
+      { method: 'GET', baseUrl: '/v0', path: '/app-function-statuses/:id', version: api_version, rule: admin_only, createdAt: new Date() }, // show
+      { method: 'POST', baseUrl: '/v0', path: '/app-function-statuses', version: api_version, rule: admin_only, createdAt: new Date() }, // create
+      { method: 'PUT', baseUrl: '/v0', path: '/app-function-statuses/:id', version: api_version, rule: admin_only, createdAt: new Date() }, // update
+      { method: 'DELETE', baseUrl: '/v0', path: '/app-function-statuses/:id', version: api_version, rule: admin_only, createdAt: new Date() }, // delete
+     
     ], {ignoreDuplicates: true});
   },
 
