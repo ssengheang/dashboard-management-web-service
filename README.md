@@ -8,3 +8,5 @@ Follow This Steps In Order To Run App Successful
 4. Run seed: npx sequelize-cli db:seed:all
 5. Run project: npm start
 6. Done
+
+Note: All APIs have set specific permission conditions that identify what user can do based on their role. To avoid any unauthorized actions when requesting a specific API, just use an admin user (Provided in .env file), as this user can do anything.
