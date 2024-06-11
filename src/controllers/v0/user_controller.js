@@ -3,16 +3,29 @@ const { Roles } = require("../../shared/constants");
 const { ErrorResponse } = require("../../shared/error_response");
 const { HttpStatus } = require("../../shared/http_status");
 const bcrypt = require("bcrypt");
+const { Op } = require("sequelize");
 
 const index = async (req, res) => {
-  const { offset, limit } = req.query;
+  const { offset, limit, search } = req.query;
+
   try {
-    const users = await User.findAndCountAll({
-      include: Role,
-      offset: offset,
-      limit: limit,
-    });
-    return res.status(HttpStatus.Success).json(users);
+    if (search == null) {
+      const users = await User.findAndCountAll({
+        include: Role,
+        offset: offset,
+        limit: limit,
+      });
+      return res.status(HttpStatus.Success).json(users);
+    } else {
+      [key, value] = search.split(",");
+      const users = await User.findAndCountAll({
+        where: { [key]: { [Op.iLike]: `%${value}%` } },
+        include: Role,
+        offset: offset,
+        limit: limit,
+      });
+      return res.status(HttpStatus.Success).json(users);
+    }
   } catch (error) {
     console.log(error);
     return res
@@ -201,7 +214,7 @@ const destroy = async (req, res) => {
 
 const me = async (req, res) => {
   try {
-    const user = await User.findByPk(req.userId, {include: Role});
+    const user = await User.findByPk(req.userId, { include: Role });
     return res.status(HttpStatus.Success).json(user);
   } catch (error) {
     console.log(error);
