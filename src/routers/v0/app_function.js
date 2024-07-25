@@ -7,6 +7,7 @@ const {
   create,
   update,
   destroy,
+  updateStatus
 } = require("../../controllers/v0/app_function_contoller");
 const { authorized } = require("../../middlewares/authorization");
 
@@ -16,4 +17,5 @@ module.exports =
     .get("/app-functions", verifyTokens, authorized, index)
     .get("/app-functions/:id", verifyTokens, authorized, show)
     .put("/app-functions/:id", verifyTokens, authorized, update)
+    .put("/app-functions/:id/status-update", verifyTokens, authorized, updateStatus)
     .delete("/app-functions/:id", verifyTokens, authorized, destroy);

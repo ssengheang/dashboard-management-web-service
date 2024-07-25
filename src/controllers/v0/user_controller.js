@@ -81,6 +81,40 @@ const register = async (req, res) => {
   }
 };
 
+//admin only
+const create = async (req, res) => {
+  const { username, password, phone, roleId } = req.body;
+  try {
+    const getRole = await Role.findByPk(roleId);
+    if (getRole == null)
+      return res
+        .status(HttpStatus.NotFound)
+        .json(ErrorResponse.CONSTRAIN_ERROR);
+
+    // this may affect the performance (will fix later)
+    const hashedPassword = await hashPassword(password);
+
+    User.create({
+      username: username,
+      password: hashedPassword,
+      phone: phone,
+      roleId: getRole.id,
+    })
+      .then((user) => {
+        return res.status(HttpStatus.Created).json(user);
+      })
+      .catch((error) => {
+        console.log(error);
+        return res
+          .status(HttpStatus.BadRequest)
+          .json({ message: error.errors[0].message });
+      });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(ErrorResponse.INTERNAL_ERROR);
+  }
+};
+
 const update = async (req, res) => {
   const id = req.userId;
   const updateParams = req.body;
@@ -215,6 +249,7 @@ module.exports = {
   index,
   show,
   register,
+  create,
   update,
   deactivate,
   activate,

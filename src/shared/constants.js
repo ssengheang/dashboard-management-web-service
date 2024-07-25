@@ -1,5 +1,6 @@
 const Roles = {
     User: "user",
+    Operator: "operator",
     Admin: "admin"
 }
 

@@ -6,6 +6,7 @@ const { ErrorResponse } = require("../shared/error_response");
 const authorized = async (req, res, next) => {
   const api_version = "v0";
   const admin_only = "admin_only"; // allowed [su, admin]
+  const operator_only = "operator_only"; // allowed [su, admin]
   const user_only = "user_only"; // allowed [su, admin, user]
   const own_account = "own_account";
 
@@ -23,7 +24,9 @@ const authorized = async (req, res, next) => {
     if (req.rule === own_account) return next();
     if (req.rule === admin_only && ["su", "admin"].includes(title))
       return next();
-    if (req.rule === user_only && ["su", "admin", "user"].includes(title))
+    if (req.rule === operator_only && ["su", "admin", "operator"].includes(title))
+      return next();
+    if (req.rule === user_only && ["su", "admin", "operator", "user"].includes(title))
       return next();
 
     return res

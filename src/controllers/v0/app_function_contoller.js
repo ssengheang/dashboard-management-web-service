@@ -69,6 +69,42 @@ const create = async (req, res) => {
   }
 };
 
+const updateStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const app_function = await AppFunctions.findByPk(id);
+
+    if (app_function == null)
+      return res
+        .status(HttpStatus.NotFound)
+        .json(ErrorResponse.APP_FUNCTION.NotFound);
+
+    // Object.keys(updateParams).forEach((key) => {
+    //   app_function.set(key, updateParams[key]);
+    // });
+    app_function.set("status", status);
+
+    app_function
+      .save()
+      .then((app_function) => {
+        res.status(HttpStatus.Success).json(app_function);
+      })
+      .catch((error) => {
+        console.log(error);
+        return res
+          .status(HttpStatus.BadRequest)
+          .json({ message: error.errors[0].message });
+      });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(HttpStatus.InternalError)
+      .json(ErrorResponse.INTERNAL_ERROR);
+  }
+};
+
+//admin only
 const update = async (req, res) => {
   const { id } = req.params;
   const updateParams = req.body;
@@ -130,4 +166,5 @@ module.exports = {
   create,
   destroy,
   update,
+  updateStatus,
 };
