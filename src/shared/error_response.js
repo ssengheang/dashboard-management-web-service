@@ -14,7 +14,7 @@ const ErrorResponse = {
     AUTHENTICATION: {
       InvalidCredentail: {
         code: "000301",
-        message: "Ivalid credentail",
+        message: "Invalid credentail",
       },
       Unauthorization: {
         code: "010302",

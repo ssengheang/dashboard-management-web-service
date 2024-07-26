@@ -19,6 +19,10 @@ module.exports = {
           createdAt: new Date()
         },
         {
+          title: "operator",
+          createdAt: new Date()
+        },
+        {
           title: "user",
           createdAt: new Date()
         },

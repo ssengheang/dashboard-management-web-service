@@ -129,7 +129,7 @@ const create = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  const id = req.userId;
+  const {id} = req.params;
   const updateParams = req.body;
   try {
     const user = await User.findByPk(id);

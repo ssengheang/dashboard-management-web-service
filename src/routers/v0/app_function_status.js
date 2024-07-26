@@ -12,7 +12,7 @@ const { authorized } = require("../../middlewares/authorization");
 
 module.exports = 
     Router
-    .post("/app-function-statuses", create)
+    .post("/app-function-statuses", verifyTokens, authorized, create)
     .get("/app-function-statuses", verifyTokens, authorized, index)
     .get("/app-function-statuses/:id", verifyTokens, authorized, show)
     .put("/app-function-statuses/:id", verifyTokens, authorized, update)

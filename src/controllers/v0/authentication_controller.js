@@ -1,10 +1,8 @@
-const { User } = require("../../../sequelize/models");
+const { User, Role } = require("../../../sequelize/models");
 const bcrypt = require("bcrypt");
 const { ErrorResponse } = require("../../shared/error_response");
 const { HttpStatus } = require("../../shared/http_status");
-const {
-  generateTokens,
-} = require("../../jsonwebtoken/utils");
+const { generateTokens } = require("../../jsonwebtoken/utils");
 
 const verifyPassword = async (user, password) => {
   if (user != null) return await bcrypt.compare(password, user.password);
@@ -45,8 +43,15 @@ const loginDashboard = async (req, res) => {
   const { phone, password } = req.body;
   try {
     const user = await User.findOne({ where: { phone: phone } });
+
     const isMatched = await verifyPassword(user, password);
     if (!isMatched || !user.isActive)
+      return res
+        .status(HttpStatus.Unauthorization)
+        .json(ErrorResponse.AUTHENTICATION.InvalidCredentail);
+
+    const role = await Role.findByPk(user.roleId);
+    if (!["su", "admin", "operator"].includes(role.dataValues.title))
       return res
         .status(HttpStatus.Unauthorization)
         .json(ErrorResponse.AUTHENTICATION.InvalidCredentail);

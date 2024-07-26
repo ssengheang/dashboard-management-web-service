@@ -17,8 +17,8 @@ const { authorized } = require("../../middlewares/authorization");
 module.exports = 
     Router
     .post("/users/register", register)
-    .post("/users", verifyTokens, create)
-    .put("/users", verifyTokens, authorized, update)
+    .post("/users", verifyTokens, authorized, create)
+    .put("/users/:id", verifyTokens, authorized, update)
     .put("/users/:id/deactivate", verifyTokens, authorized, deactivate)
     .put("/users/:id/activate", verifyTokens, authorized, activate)
     .get("/users/me", verifyTokens, authorized, me)

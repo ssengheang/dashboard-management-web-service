@@ -16,7 +16,7 @@ module.exports = {
       { method: 'GET', baseUrl: '/v0', path: '/users/:id', version: api_version, rule: operator_only, createdAt: new Date() }, // show
       { method: 'POST', baseUrl: '/v0', path: '/users', version: api_version, rule: admin_only, createdAt: new Date() }, // create
       { method: 'POST', baseUrl: '/v0', path: '/users/register', version: api_version, rule: public, createdAt: new Date() }, // register
-      { method: 'PUT', baseUrl: '/v0', path: '/users', version: api_version, rule: own_account, createdAt: new Date() }, // update
+      { method: 'PUT', baseUrl: '/v0', path: '/users/:id', version: api_version, rule: admin_only, createdAt: new Date() }, // update
       { method: 'PUT', baseUrl: '/v0', path: '/users/:id/deactivate', version: api_version, rule: admin_only, createdAt: new Date() }, // deactivate
       { method: 'PUT', baseUrl: '/v0', path: '/users/:id/activate', version: api_version, rule: admin_only, createdAt: new Date() }, // activate
       { method: 'DELETE', baseUrl: '/v0', path: '/users/:id', version: api_version, rule: admin_only, createdAt: new Date() }, // activate
