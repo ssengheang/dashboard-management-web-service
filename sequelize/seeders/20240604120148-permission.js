@@ -37,7 +37,7 @@ module.exports = {
       // ClientLogsController
       { method: 'GET', baseUrl: '/v0', path: '/client-logs', version: api_version, rule: operator_only, createdAt: new Date() }, // index
       { method: 'GET', baseUrl: '/v0', path: '/client-logs/:id', version: api_version, rule: operator_only, createdAt: new Date() }, // show
-      { method: 'POST', baseUrl: '/v0', path: '/client-logs', version: api_version, rule: public, createdAt: new Date() }, // create
+      { method: 'POST', baseUrl: '/v0', path: '/client-logs', version: api_version, rule: own_account, createdAt: new Date() }, // create
     
       // AppFunctionsController
       { method: 'GET', baseUrl: '/v0', path: '/app-functions', version: api_version, rule: operator_only, createdAt: new Date() }, // index

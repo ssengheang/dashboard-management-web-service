@@ -35,7 +35,8 @@ const show = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const { appInfo, deviceInfo, note, param, userId } = req.body;
+  const { appInfo, deviceInfo, note, param } = req.body;
+  const userId = req.userId;
   try {
     const getUser = await User.findOne({ where: { id: userId } });
     if (getUser == null)
