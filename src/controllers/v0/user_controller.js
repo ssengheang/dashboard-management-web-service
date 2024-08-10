@@ -6,26 +6,32 @@ const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 
 const index = async (req, res) => {
-  const { offset, limit, search } = req.query;
+  const { offset = 0, limit = 10, ...searchParams } = req.query;
+
+  // Convert pagination parameters to integers
+  const offsetInt = parseInt(offset, 10);
+  const limitInt = parseInt(limit, 10);
+
+  // Initialize where clause
+  const whereClause = {};
+
+  /// Build where clause dynamically based on searchParams
+  for (const [key, value] of Object.entries(searchParams)) {
+    if (value) {
+      whereClause[key] = {
+        [Op.iLike]: `%${value}%`,
+      };
+    }
+  }
 
   try {
-    if (search == null) {
-      const users = await User.findAndCountAll({
-        include: Role,
-        offset: offset,
-        limit: limit,
-      });
-      return res.status(HttpStatus.Success).json(users);
-    } else {
-      [key, value] = search.split(",");
-      const users = await User.findAndCountAll({
-        where: { [key]: { [Op.iLike]: `%${value}%` } },
-        include: Role,
-        offset: offset,
-        limit: limit,
-      });
-      return res.status(HttpStatus.Success).json(users);
-    }
+    const users = await User.findAndCountAll({
+      where: whereClause,
+      include: Role,
+      offset: offsetInt,
+      limit: limitInt,
+    });
+    return res.status(HttpStatus.Success).json(users);
   } catch (error) {
     console.log(error);
     return res

@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const {
   AppFunctionStatuses,
   AppFunctions,
@@ -6,12 +7,30 @@ const { ErrorResponse } = require("../../shared/error_response");
 const { HttpStatus } = require("../../shared/http_status");
 
 const index = async (req, res) => {
-  const { offset, limit } = req.query;
+  const { offset = 0, limit = 10, ...searchParams } = req.query;
+
+  // Convert pagination parameters to integers
+  const offsetInt = parseInt(offset, 10);
+  const limitInt = parseInt(limit, 10);
+
+  // Initialize where clause
+  const whereClause = {};
+
+  // Build where clause dynamically based on searchParams
+  for (const [key, value] of Object.entries(searchParams)) {
+    if (value) {
+      whereClause[key] = {
+        [Op.iLike]: `%${value}%`,
+      };
+    }
+  }
+
   try {
     const app_functions = await AppFunctions.findAndCountAll({
+      where: whereClause,
       include: AppFunctionStatuses,
-      offset: offset,
-      limit: limit,
+      offset: offsetInt,
+      limit: limitInt,
     });
     return res.status(HttpStatus.Success).json(app_functions);
   } catch (error) {
