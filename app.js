@@ -26,33 +26,38 @@ app.use("/v0", userRouter);
 app.use("/v0", clientLogRouter);
 app.use("/v0", appFunctionRouter);
 app.use("/v0", appFunctionStatusRouter);
-
-
 // Check DB Connection
 
 const PORT = process.env.PORT;
 const conf = dbConfig.development;
+const isLocal = process.env.RUN_MODE === 'local';
 
-const sequelize = new Sequelize(
-  conf.database,
-  conf.username,
-  conf.password,
-  {
-    host: conf.host,
-    dialect: "postgres",
-    operatorsAliases: 0,
-    logging: 0
-  }
-);
-
-sequelize.sync();
+// Initialize Sequelize with SSL and other options
+const sequelize = new Sequelize(conf.database, conf.username, conf.password, {
+  host: conf.host,
+  port: conf.port || 5432,
+  dialect: "postgres",
+  dialectOptions: isLocal ? {} : {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+  pool: {
+    max: 10,
+    min: 0,
+    acquire: 60000,
+    idle: 10000,
+  },
+  logging: console.log,
+});
 
 (async () => {
   try {
-    await sequelize.authenticate(); 
+    await sequelize.authenticate();
     console.log("Database connection setup successfully!");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}...`));
   } catch (error) {
-    console.log("Unable to connect to the database", error);
+    console.error("Unable to connect to the database:", error);
   }
 })();
