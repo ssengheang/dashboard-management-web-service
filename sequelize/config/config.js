@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const isLocal = process.env.RUN_MODE === 'local';
+const isLocal = process.env.RUN_IN_LOCAL === 'yes';
 
 module.exports = {
   "development": {

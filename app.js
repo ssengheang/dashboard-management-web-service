@@ -30,7 +30,7 @@ app.use("/v0", appFunctionStatusRouter);
 
 const PORT = process.env.PORT;
 const conf = dbConfig.development;
-const isLocal = process.env.RUN_MODE === 'local';
+const isLocal = process.env.RUN_IN_LOCAL === 'yes';
 
 // Initialize Sequelize with SSL and other options
 const sequelize = new Sequelize(conf.database, conf.username, conf.password, {
